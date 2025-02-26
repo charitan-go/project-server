@@ -3,18 +3,18 @@ package api
 import (
 	"net/http"
 
-	authhandler "github.com/charitan-go/auth-server/internal/auth/handler"
+	projecthandler "github.com/charitan-go/project-server/internal/project/handler"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Api struct {
-	AuthHandler *authhandler.AuthHandler
+	ProjectHandler *projecthandler.ProjectHandler
 }
 
-func NewApi(authHandler *authhandler.AuthHandler) *Api {
+func NewApi(projectHandler *projecthandler.ProjectHandler) *Api {
 	return &Api{
-		AuthHandler: authHandler,
+		ProjectHandler: projectHandler,
 	}
 }
 

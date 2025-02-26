@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/charitan-go/auth-server/internal/auth/model"
+	"github.com/charitan-go/project-server/internal/project/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -32,7 +32,7 @@ func connect() error {
 }
 
 func migrate() error {
-	if err := DB.AutoMigrate(&model.Auth{}); err != nil {
+	if err := DB.AutoMigrate(&model.Project{}); err != nil {
 		log.Println("Migrate failed")
 		return err
 	}

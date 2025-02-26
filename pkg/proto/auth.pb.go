@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.5
 // 	protoc        v5.29.2
-// source: pkg/proto/auth.proto
+// source: pkg/proto/project.proto
 
 package proto
 
@@ -32,7 +32,7 @@ type CreateDonorProfileRequestDto struct {
 
 func (x *CreateDonorProfileRequestDto) Reset() {
 	*x = CreateDonorProfileRequestDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[0]
+	mi := &file_pkg_proto_project_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *CreateDonorProfileRequestDto) String() string {
 func (*CreateDonorProfileRequestDto) ProtoMessage() {}
 
 func (x *CreateDonorProfileRequestDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[0]
+	mi := &file_pkg_proto_project_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *CreateDonorProfileRequestDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDonorProfileRequestDto.ProtoReflect.Descriptor instead.
 func (*CreateDonorProfileRequestDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{0}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateDonorProfileRequestDto) GetFirstName() string {
@@ -90,7 +90,7 @@ type CreateDonorProfileResponseDto struct {
 
 func (x *CreateDonorProfileResponseDto) Reset() {
 	*x = CreateDonorProfileResponseDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[1]
+	mi := &file_pkg_proto_project_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -102,7 +102,7 @@ func (x *CreateDonorProfileResponseDto) String() string {
 func (*CreateDonorProfileResponseDto) ProtoMessage() {}
 
 func (x *CreateDonorProfileResponseDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[1]
+	mi := &file_pkg_proto_project_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -115,7 +115,7 @@ func (x *CreateDonorProfileResponseDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDonorProfileResponseDto.ProtoReflect.Descriptor instead.
 func (*CreateDonorProfileResponseDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{1}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateDonorProfileResponseDto) GetProfileReadableId() string {
@@ -136,7 +136,7 @@ type CreateCharityProfileRequestDto struct {
 
 func (x *CreateCharityProfileRequestDto) Reset() {
 	*x = CreateCharityProfileRequestDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[2]
+	mi := &file_pkg_proto_project_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -148,7 +148,7 @@ func (x *CreateCharityProfileRequestDto) String() string {
 func (*CreateCharityProfileRequestDto) ProtoMessage() {}
 
 func (x *CreateCharityProfileRequestDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[2]
+	mi := &file_pkg_proto_project_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -161,7 +161,7 @@ func (x *CreateCharityProfileRequestDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCharityProfileRequestDto.ProtoReflect.Descriptor instead.
 func (*CreateCharityProfileRequestDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{2}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateCharityProfileRequestDto) GetOrganizationName() string {
@@ -194,7 +194,7 @@ type CreateCharityProfileResponseDto struct {
 
 func (x *CreateCharityProfileResponseDto) Reset() {
 	*x = CreateCharityProfileResponseDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[3]
+	mi := &file_pkg_proto_project_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -206,7 +206,7 @@ func (x *CreateCharityProfileResponseDto) String() string {
 func (*CreateCharityProfileResponseDto) ProtoMessage() {}
 
 func (x *CreateCharityProfileResponseDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[3]
+	mi := &file_pkg_proto_project_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -219,7 +219,7 @@ func (x *CreateCharityProfileResponseDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCharityProfileResponseDto.ProtoReflect.Descriptor instead.
 func (*CreateCharityProfileResponseDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{3}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateCharityProfileResponseDto) GetProfileReadableId() string {
@@ -238,7 +238,7 @@ type GetDonorProfileRequestDto struct {
 
 func (x *GetDonorProfileRequestDto) Reset() {
 	*x = GetDonorProfileRequestDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[4]
+	mi := &file_pkg_proto_project_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -250,7 +250,7 @@ func (x *GetDonorProfileRequestDto) String() string {
 func (*GetDonorProfileRequestDto) ProtoMessage() {}
 
 func (x *GetDonorProfileRequestDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[4]
+	mi := &file_pkg_proto_project_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -263,7 +263,7 @@ func (x *GetDonorProfileRequestDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDonorProfileRequestDto.ProtoReflect.Descriptor instead.
 func (*GetDonorProfileRequestDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{4}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetDonorProfileRequestDto) GetProfileReadableId() string {
@@ -284,7 +284,7 @@ type GetDonorProfileResponseDto struct {
 
 func (x *GetDonorProfileResponseDto) Reset() {
 	*x = GetDonorProfileResponseDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[5]
+	mi := &file_pkg_proto_project_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -296,7 +296,7 @@ func (x *GetDonorProfileResponseDto) String() string {
 func (*GetDonorProfileResponseDto) ProtoMessage() {}
 
 func (x *GetDonorProfileResponseDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[5]
+	mi := &file_pkg_proto_project_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -309,7 +309,7 @@ func (x *GetDonorProfileResponseDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDonorProfileResponseDto.ProtoReflect.Descriptor instead.
 func (*GetDonorProfileResponseDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{5}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetDonorProfileResponseDto) GetFirstName() string {
@@ -342,7 +342,7 @@ type GetCharityProfileRequestDto struct {
 
 func (x *GetCharityProfileRequestDto) Reset() {
 	*x = GetCharityProfileRequestDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[6]
+	mi := &file_pkg_proto_project_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -354,7 +354,7 @@ func (x *GetCharityProfileRequestDto) String() string {
 func (*GetCharityProfileRequestDto) ProtoMessage() {}
 
 func (x *GetCharityProfileRequestDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[6]
+	mi := &file_pkg_proto_project_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -367,7 +367,7 @@ func (x *GetCharityProfileRequestDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCharityProfileRequestDto.ProtoReflect.Descriptor instead.
 func (*GetCharityProfileRequestDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{6}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetCharityProfileRequestDto) GetProfileReadableId() string {
@@ -388,7 +388,7 @@ type GetCharityProfileResponseDto struct {
 
 func (x *GetCharityProfileResponseDto) Reset() {
 	*x = GetCharityProfileResponseDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[7]
+	mi := &file_pkg_proto_project_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -400,7 +400,7 @@ func (x *GetCharityProfileResponseDto) String() string {
 func (*GetCharityProfileResponseDto) ProtoMessage() {}
 
 func (x *GetCharityProfileResponseDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[7]
+	mi := &file_pkg_proto_project_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -413,7 +413,7 @@ func (x *GetCharityProfileResponseDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCharityProfileResponseDto.ProtoReflect.Descriptor instead.
 func (*GetCharityProfileResponseDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{7}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetCharityProfileResponseDto) GetOrganizationName() string {
@@ -445,7 +445,7 @@ type GetPrivateKeyRequestDto struct {
 
 func (x *GetPrivateKeyRequestDto) Reset() {
 	*x = GetPrivateKeyRequestDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[8]
+	mi := &file_pkg_proto_project_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -457,7 +457,7 @@ func (x *GetPrivateKeyRequestDto) String() string {
 func (*GetPrivateKeyRequestDto) ProtoMessage() {}
 
 func (x *GetPrivateKeyRequestDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[8]
+	mi := &file_pkg_proto_project_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -470,7 +470,7 @@ func (x *GetPrivateKeyRequestDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPrivateKeyRequestDto.ProtoReflect.Descriptor instead.
 func (*GetPrivateKeyRequestDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{8}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{8}
 }
 
 type GetPrivateKeyResponseDto struct {
@@ -482,7 +482,7 @@ type GetPrivateKeyResponseDto struct {
 
 func (x *GetPrivateKeyResponseDto) Reset() {
 	*x = GetPrivateKeyResponseDto{}
-	mi := &file_pkg_proto_auth_proto_msgTypes[9]
+	mi := &file_pkg_proto_project_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -494,7 +494,7 @@ func (x *GetPrivateKeyResponseDto) String() string {
 func (*GetPrivateKeyResponseDto) ProtoMessage() {}
 
 func (x *GetPrivateKeyResponseDto) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_auth_proto_msgTypes[9]
+	mi := &file_pkg_proto_project_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -507,7 +507,7 @@ func (x *GetPrivateKeyResponseDto) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPrivateKeyResponseDto.ProtoReflect.Descriptor instead.
 func (*GetPrivateKeyResponseDto) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_auth_proto_rawDescGZIP(), []int{9}
+	return file_pkg_proto_project_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetPrivateKeyResponseDto) GetPrivateKey() string {
@@ -517,9 +517,9 @@ func (x *GetPrivateKeyResponseDto) GetPrivateKey() string {
 	return ""
 }
 
-var File_pkg_proto_auth_proto protoreflect.FileDescriptor
+var File_pkg_proto_project_proto protoreflect.FileDescriptor
 
-var file_pkg_proto_auth_proto_rawDesc = string([]byte{
+var file_pkg_proto_project_proto_rawDesc = string([]byte{
 	0x0a, 0x14, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x61, 0x75, 0x74, 0x68,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x72, 0x0a, 0x1c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x44, 0x6f, 0x6e, 0x6f, 0x72, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75,
@@ -610,19 +610,19 @@ var file_pkg_proto_auth_proto_rawDesc = string([]byte{
 })
 
 var (
-	file_pkg_proto_auth_proto_rawDescOnce sync.Once
-	file_pkg_proto_auth_proto_rawDescData []byte
+	file_pkg_proto_project_proto_rawDescOnce sync.Once
+	file_pkg_proto_project_proto_rawDescData []byte
 )
 
-func file_pkg_proto_auth_proto_rawDescGZIP() []byte {
-	file_pkg_proto_auth_proto_rawDescOnce.Do(func() {
-		file_pkg_proto_auth_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pkg_proto_auth_proto_rawDesc), len(file_pkg_proto_auth_proto_rawDesc)))
+func file_pkg_proto_project_proto_rawDescGZIP() []byte {
+	file_pkg_proto_project_proto_rawDescOnce.Do(func() {
+		file_pkg_proto_project_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_pkg_proto_project_proto_rawDesc), len(file_pkg_proto_project_proto_rawDesc)))
 	})
-	return file_pkg_proto_auth_proto_rawDescData
+	return file_pkg_proto_project_proto_rawDescData
 }
 
-var file_pkg_proto_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_pkg_proto_auth_proto_goTypes = []any{
+var file_pkg_proto_project_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_pkg_proto_project_proto_goTypes = []any{
 	(*CreateDonorProfileRequestDto)(nil),    // 0: CreateDonorProfileRequestDto
 	(*CreateDonorProfileResponseDto)(nil),   // 1: CreateDonorProfileResponseDto
 	(*CreateCharityProfileRequestDto)(nil),  // 2: CreateCharityProfileRequestDto
@@ -634,7 +634,7 @@ var file_pkg_proto_auth_proto_goTypes = []any{
 	(*GetPrivateKeyRequestDto)(nil),         // 8: GetPrivateKeyRequestDto
 	(*GetPrivateKeyResponseDto)(nil),        // 9: GetPrivateKeyResponseDto
 }
-var file_pkg_proto_auth_proto_depIdxs = []int32{
+var file_pkg_proto_project_proto_depIdxs = []int32{
 	0, // 0: ProfileGrpcService.CreateDonorProfile:input_type -> CreateDonorProfileRequestDto
 	2, // 1: ProfileGrpcService.CreateCharityProfile:input_type -> CreateCharityProfileRequestDto
 	4, // 2: ProfileGrpcService.GetDonorProfile:input_type -> GetDonorProfileRequestDto
@@ -652,26 +652,26 @@ var file_pkg_proto_auth_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_pkg_proto_auth_proto_init() }
-func file_pkg_proto_auth_proto_init() {
-	if File_pkg_proto_auth_proto != nil {
+func init() { file_pkg_proto_project_proto_init() }
+func file_pkg_proto_project_proto_init() {
+	if File_pkg_proto_project_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_proto_auth_proto_rawDesc), len(file_pkg_proto_auth_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_proto_project_proto_rawDesc), len(file_pkg_proto_project_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
-		GoTypes:           file_pkg_proto_auth_proto_goTypes,
-		DependencyIndexes: file_pkg_proto_auth_proto_depIdxs,
-		MessageInfos:      file_pkg_proto_auth_proto_msgTypes,
+		GoTypes:           file_pkg_proto_project_proto_goTypes,
+		DependencyIndexes: file_pkg_proto_project_proto_depIdxs,
+		MessageInfos:      file_pkg_proto_project_proto_msgTypes,
 	}.Build()
-	File_pkg_proto_auth_proto = out.File
-	file_pkg_proto_auth_proto_goTypes = nil
-	file_pkg_proto_auth_proto_depIdxs = nil
+	File_pkg_proto_project_proto = out.File
+	file_pkg_proto_project_proto_goTypes = nil
+	file_pkg_proto_project_proto_depIdxs = nil
 }

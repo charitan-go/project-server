@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/charitan-go/auth-server/rest/api"
+	"github.com/charitan-go/project-server/rest/api"
 	consulapi "github.com/hashicorp/consul/api"
 	"github.com/labstack/echo/v4"
 )
@@ -30,14 +30,6 @@ func NewRestServer(echo *echo.Echo, api *api.Api) *RestServer {
 
 func (s *RestServer) setupRouting() {
 	s.echo.GET("/health", s.api.HealthCheck)
-
-	// Non auth endpoint
-	s.echo.POST("/login", s.api.AuthHandler.Login)
-	s.echo.POST("/donor/register", s.api.AuthHandler.RegisterDonor)
-	s.echo.POST("/charity/register", s.api.AuthHandler.RegisterCharity)
-
-	// Endpoint for all users (registricted)
-	s.echo.GET("/me", s.api.AuthHandler.GetMe)
 
 }
 

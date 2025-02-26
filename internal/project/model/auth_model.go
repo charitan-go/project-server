@@ -3,12 +3,12 @@ package model
 import (
 	"time"
 
-	"github.com/charitan-go/auth-server/internal/auth/dto"
+	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
-type Auth struct {
+type Project struct {
 	id                uuid.UUID    `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
 	ReadableId        uuid.UUID    `gorm:"type:uuid;default:gen_random_uuid()" json:"readable_id"`
 	Email             string       `gorm:"type:varchar(255);not null;unique" json:"email"`
@@ -19,7 +19,7 @@ type Auth struct {
 	updatedAt         time.Time
 }
 
-func (a *Auth) BeforeCreate(db *gorm.DB) (err error) {
+func (a *Project) BeforeCreate(db *gorm.DB) (err error) {
 	if a.id == uuid.Nil {
 		a.id = uuid.New()
 	}
@@ -31,8 +31,8 @@ func (a *Auth) BeforeCreate(db *gorm.DB) (err error) {
 	return nil
 }
 
-func NewDonorAuth(req *dto.RegisterDonorRequestDto, hashedPassword string, role dto.RoleEnum, profileReableId uuid.UUID) *Auth {
-	return &Auth{
+func NewDonorProject(req *dto.RegisterDonorRequestDto, hashedPassword string, role dto.RoleEnum, profileReableId uuid.UUID) *Project {
+	return &Project{
 		Email:             req.Email,
 		HashedPassword:    hashedPassword,
 		Role:              role,
@@ -40,8 +40,8 @@ func NewDonorAuth(req *dto.RegisterDonorRequestDto, hashedPassword string, role 
 	}
 }
 
-func NewCharityAuth(req *dto.RegisterCharityRequestDto, hashedPassword string, role dto.RoleEnum, profileReableId uuid.UUID) *Auth {
-	return &Auth{
+func NewCharityProject(req *dto.RegisterCharityRequestDto, hashedPassword string, role dto.RoleEnum, profileReableId uuid.UUID) *Project {
+	return &Project{
 		Email:             req.Email,
 		HashedPassword:    hashedPassword,
 		Role:              role,

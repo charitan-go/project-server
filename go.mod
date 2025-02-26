@@ -1,4 +1,4 @@
-module github.com/charitan-go/auth-server
+module github.com/charitan-go/project-server
 
 go 1.23.5
 

@@ -1,7 +1,7 @@
 -- Ensure the pgcrypto extension is enabled for UUID functions, if needed
 -- CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-INSERT INTO auths (email, hashed_password, role, profile_readable_id)
+INSERT INTO projects (email, hashed_password, role, profile_readable_id)
 VALUES 
     ('donor1@example.com', '$2a$10$AdA8zvXzhbzs1eodny4NkuR2DkUWN27j7WU5n/z0S7LTvlmYlsJ8y', 'DONOR', '9c65559f-5837-43ba-8766-5f4015452dc8'),
     ('donor2@example.com', '$2a$10$AdA8zvXzhbzs1eodny4NkuR2DkUWN27j7WU5n/z0S7LTvlmYlsJ8y', 'DONOR', '3787d0a4-8950-462f-bcc6-ce7a2bc953a4'),
@@ -40,8 +40,8 @@ VALUES
     ('donor30@example.com', '$2a$10$AdA8zvXzhbzs1eodny4NkuR2DkUWN27j7WU5n/z0S7LTvlmYlsJ8y', 'DONOR', 'd51aa6cb-a471-45f8-aa15-34924a3f5c95');
 
 
--- Insert charity organization accounts into the auths table
-INSERT INTO auths (email, hashed_password, role, profile_readable_id)
+-- Insert charity organization accounts into the projects table
+INSERT INTO projects (email, hashed_password, role, profile_readable_id)
 VALUES 
     ('charity1@example.com', '$2a$10$AdA8zvXzhbzs1eodny4NkuR2DkUWN27j7WU5n/z0S7LTvlmYlsJ8y', 'CHARITY', 'a364e55f-2b2d-4180-b29c-c1385cb3c27e'),
     ('charity2@example.com', '$2a$10$AdA8zvXzhbzs1eodny4NkuR2DkUWN27j7WU5n/z0S7LTvlmYlsJ8y', 'CHARITY', '209eddd5-561f-4605-9103-07ed9f8e36b2'),

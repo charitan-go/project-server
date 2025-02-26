@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.2
-// source: pkg/proto/auth.proto
+// source: pkg/proto/project.proto
 
 package proto
 
@@ -231,7 +231,7 @@ var ProfileGrpcService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/proto/auth.proto",
+	Metadata: "pkg/proto/project.proto",
 }
 
 const (
@@ -333,5 +333,5 @@ var KeyGrpcService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pkg/proto/auth.proto",
+	Metadata: "pkg/proto/project.proto",
 }
