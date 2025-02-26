@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/charitan-go/project-server/pkg/database"
-	"github.com/charitan-go/project-server/rabbitmq"
 	"github.com/charitan-go/project-server/rest"
 	"github.com/charitan-go/project-server/rest/api"
 
@@ -12,7 +11,7 @@ import (
 )
 
 // Run both servers concurrently
-func runServers(restSrv *rest.RestServer, rabbitmqSrv *rabbitmq.RabbitmqServer) {
+func runServers(restSrv *rest.RestServer) {
 	log.Println("In invoke")
 
 	// Start REST server
