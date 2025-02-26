@@ -3,20 +3,15 @@ package app
 import (
 	"log"
 
-	"github.com/charitan-go/auth-server/external/email"
-	"github.com/charitan-go/auth-server/external/key"
-	"github.com/charitan-go/auth-server/external/profile"
-	"github.com/charitan-go/auth-server/internal/auth"
-	"github.com/charitan-go/auth-server/pkg/database"
-	"github.com/charitan-go/auth-server/rabbitmq"
-	"github.com/charitan-go/auth-server/rest"
-	"github.com/charitan-go/auth-server/rest/api"
+	"github.com/charitan-go/project-server/pkg/database"
+	"github.com/charitan-go/project-server/rest"
+	"github.com/charitan-go/project-server/rest/api"
 
 	"go.uber.org/fx"
 )
 
 // Run both servers concurrently
-func runServers(restSrv *rest.RestServer, rabbitmqSrv *rabbitmq.RabbitmqServer) {
+func runServers(restSrv *rest.RestServer) {
 	log.Println("In invoke")
 
 	// Start REST server
@@ -26,10 +21,10 @@ func runServers(restSrv *rest.RestServer, rabbitmqSrv *rabbitmq.RabbitmqServer) 
 	}()
 
 	// Start RabbitMQ server
-	go func() {
-		log.Println("In goroutine of rabbitmq")
-		rabbitmqSrv.Run()
-	}()
+	// go func() {
+	// 	log.Println("In goroutine of rabbitmq")
+	// 	rabbitmqSrv.Run()
+	// }()
 
 }
 
@@ -38,11 +33,6 @@ func Run() {
 	database.SetupDatabase()
 
 	fx.New(
-		auth.AuthModule,
-		profile.ProfileModule,
-		key.KeyModule,
-		email.EmailModule,
-		rabbitmq.RabbitmqModule,
 		fx.Provide(
 			rest.NewRestServer,
 			rest.NewEcho,

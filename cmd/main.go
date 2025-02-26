@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/charitan-go/auth-server/app"
+	"github.com/charitan-go/project-server/app"
 	"log"
 )
 
