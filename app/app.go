@@ -3,6 +3,7 @@ package app
 import (
 	"log"
 
+	"github.com/charitan-go/project-server/internal/project"
 	"github.com/charitan-go/project-server/pkg/database"
 	"github.com/charitan-go/project-server/rest"
 	"github.com/charitan-go/project-server/rest/api"
@@ -33,6 +34,7 @@ func Run() {
 	database.SetupDatabase()
 
 	fx.New(
+		project.ProjectModule,
 		fx.Provide(
 			rest.NewRestServer,
 			rest.NewEcho,
