@@ -31,6 +31,10 @@ const (
 	FieldCategory = "category"
 	// FieldCountryCode holds the string denoting the countrycode field in the database.
 	FieldCountryCode = "country_code"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldOwnerCharityReadableID holds the string denoting the owner_charity_readable_id field in the database.
+	FieldOwnerCharityReadableID = "owner_charity_readable_id"
 	// Table holds the table name of the project in the database.
 	Table = "projects"
 )
@@ -46,6 +50,8 @@ var Columns = []string{
 	FieldEndDate,
 	FieldCategory,
 	FieldCountryCode,
+	FieldStatus,
+	FieldOwnerCharityReadableID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -80,6 +86,16 @@ func CategoryValidator(c dto.CategoryEnum) error {
 		return nil
 	default:
 		return fmt.Errorf("project: invalid enum value for category field: %q", c)
+	}
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s dto.StatusEnum) error {
+	switch s {
+	case "PENDING", "APPROVED", "DENIED", "HALTED", "FINISHED", "DELETED":
+		return nil
+	default:
+		return fmt.Errorf("project: invalid enum value for status field: %q", s)
 	}
 }
 
@@ -129,4 +145,14 @@ func ByCategory(opts ...sql.OrderTermOption) OrderOption {
 // ByCountryCode orders the results by the countryCode field.
 func ByCountryCode(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCountryCode, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByOwnerCharityReadableID orders the results by the owner_charity_readable_id field.
+func ByOwnerCharityReadableID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOwnerCharityReadableID, opts...).ToFunc()
 }

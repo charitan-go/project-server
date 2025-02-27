@@ -86,6 +86,18 @@ func (pc *ProjectCreate) SetCountryCode(s string) *ProjectCreate {
 	return pc
 }
 
+// SetStatus sets the "status" field.
+func (pc *ProjectCreate) SetStatus(de dto.StatusEnum) *ProjectCreate {
+	pc.mutation.SetStatus(de)
+	return pc
+}
+
+// SetOwnerCharityReadableID sets the "owner_charity_readable_id" field.
+func (pc *ProjectCreate) SetOwnerCharityReadableID(s string) *ProjectCreate {
+	pc.mutation.SetOwnerCharityReadableID(s)
+	return pc
+}
+
 // SetID sets the "id" field.
 func (pc *ProjectCreate) SetID(u uuid.UUID) *ProjectCreate {
 	pc.mutation.SetID(u)
@@ -195,6 +207,17 @@ func (pc *ProjectCreate) check() error {
 			return &ValidationError{Name: "countryCode", err: fmt.Errorf(`ent: validator failed for field "Project.countryCode": %w`, err)}
 		}
 	}
+	if _, ok := pc.mutation.Status(); !ok {
+		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Project.status"`)}
+	}
+	if v, ok := pc.mutation.Status(); ok {
+		if err := project.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Project.status": %w`, err)}
+		}
+	}
+	if _, ok := pc.mutation.OwnerCharityReadableID(); !ok {
+		return &ValidationError{Name: "owner_charity_readable_id", err: errors.New(`ent: missing required field "Project.owner_charity_readable_id"`)}
+	}
 	return nil
 }
 
@@ -261,6 +284,14 @@ func (pc *ProjectCreate) createSpec() (*Project, *sqlgraph.CreateSpec) {
 	if value, ok := pc.mutation.CountryCode(); ok {
 		_spec.SetField(project.FieldCountryCode, field.TypeString, value)
 		_node.CountryCode = value
+	}
+	if value, ok := pc.mutation.Status(); ok {
+		_spec.SetField(project.FieldStatus, field.TypeEnum, value)
+		_node.Status = value
+	}
+	if value, ok := pc.mutation.OwnerCharityReadableID(); ok {
+		_spec.SetField(project.FieldOwnerCharityReadableID, field.TypeString, value)
+		_node.OwnerCharityReadableID = value
 	}
 	return _node, _spec
 }

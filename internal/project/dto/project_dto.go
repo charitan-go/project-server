@@ -1,6 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
+
+	restpkg "github.com/charitan-go/project-server/pkg/rest"
+)
 
 type StatusEnum string
 
@@ -15,6 +19,21 @@ const (
 
 	StatusDeleted StatusEnum = "DELETED"
 )
+
+// Values provides list valid values for Enum.
+func (StatusEnum) Values() (kinds []string) {
+	for _, s := range []StatusEnum{
+		StatusPending,
+		StatusApproved,
+		StatusDenied,
+		StatusHalted,
+		StatusFinished,
+		StatusDeleted,
+	} {
+		kinds = append(kinds, string(s))
+	}
+	return
+}
 
 type CategoryEnum string
 
@@ -63,22 +82,30 @@ type ProjectResponseDto struct {
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
 	Goal        float64 `json:"goal"`
+	Category    string  `json:"category"`
+	CountryCode string  `json:"countryCode"`
 
 	StartDate int64 `json:"startDate"`
 	EndDate   int64 `json:"endDate"`
 
-	Category    string `json:"category"`
-	CountryCode string `json:"countryCode"`
+	Status string `json:"status"`
+
+	OwnerCharityReadableId string `json:"ownerCharityReadableId"`
 }
 
 type SaveProjectEntDto struct {
 	Name        string
 	Description string
 	Goal        float64
-	StartDate   time.Time
-	EndDate     time.Time
-	Category    string
+	Category    CategoryEnum
 	CountryCode string
+
+	StartDate time.Time
+	EndDate   time.Time
+
+	Status StatusEnum
+
+	OwnerCharityReadableId string
 }
 
 type MessageResponseDto struct {
@@ -90,14 +117,16 @@ type ErrorResponseDto struct {
 	StatusCode uint   `json:"statusCode"`
 }
 
-func (d *CreateProjectRequestDto) ToSaveProjectEntDto() *SaveProjectEntDto {
+func (d *CreateProjectRequestDto) ToSaveProjectEntDto(jwtPayload *restpkg.JwtPayload) *SaveProjectEntDto {
 	return &SaveProjectEntDto{
-		Name:        d.Name,
-		Description: d.Description,
-		Goal:        d.Goal,
-		StartDate:   time.UnixMilli(d.StartDate),
-		EndDate:     time.UnixMilli(d.EndDate),
-		Category:    d.Category,
-		CountryCode: d.CountryCode,
+		Name:                   d.Name,
+		Description:            d.Description,
+		Goal:                   d.Goal,
+		StartDate:              time.UnixMilli(d.StartDate),
+		EndDate:                time.UnixMilli(d.EndDate),
+		Category:               CategoryEnum(d.Category),
+		CountryCode:            d.CountryCode,
+		OwnerCharityReadableId: jwtPayload.ReadableId,
+		Status:                 StatusPending,
 	}
 }

@@ -39,8 +39,10 @@ func (r *projectRepositoryImpl) Save(entDto *dto.SaveProjectEntDto) (*ent.Projec
 		SetGoal(entDto.Goal).
 		SetStartDate(entDto.StartDate).
 		SetEndDate(entDto.EndDate).
-		SetCategory(dto.CategoryEnum(entDto.Category)).
+		SetCategory(entDto.Category).
 		SetCountryCode(entDto.CountryCode).
+		SetOwnerCharityReadableID(entDto.OwnerCharityReadableId).
+		SetStatus(entDto.Status).
 		Save(context.Background())
 
 	if err != nil {

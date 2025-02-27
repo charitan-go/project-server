@@ -91,6 +91,11 @@ func CountryCode(v string) predicate.Project {
 	return predicate.Project(sql.FieldEQ(FieldCountryCode, v))
 }
 
+// OwnerCharityReadableID applies equality check predicate on the "owner_charity_readable_id" field. It's identical to OwnerCharityReadableIDEQ.
+func OwnerCharityReadableID(v string) predicate.Project {
+	return predicate.Project(sql.FieldEQ(FieldOwnerCharityReadableID, v))
+}
+
 // ReadableIDEQ applies the EQ predicate on the "readable_id" field.
 func ReadableIDEQ(v uuid.UUID) predicate.Project {
 	return predicate.Project(sql.FieldEQ(FieldReadableID, v))
@@ -474,6 +479,101 @@ func CountryCodeEqualFold(v string) predicate.Project {
 // CountryCodeContainsFold applies the ContainsFold predicate on the "countryCode" field.
 func CountryCodeContainsFold(v string) predicate.Project {
 	return predicate.Project(sql.FieldContainsFold(FieldCountryCode, v))
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v dto.StatusEnum) predicate.Project {
+	vc := v
+	return predicate.Project(sql.FieldEQ(FieldStatus, vc))
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v dto.StatusEnum) predicate.Project {
+	vc := v
+	return predicate.Project(sql.FieldNEQ(FieldStatus, vc))
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...dto.StatusEnum) predicate.Project {
+	v := make([]any, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Project(sql.FieldIn(FieldStatus, v...))
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...dto.StatusEnum) predicate.Project {
+	v := make([]any, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Project(sql.FieldNotIn(FieldStatus, v...))
+}
+
+// OwnerCharityReadableIDEQ applies the EQ predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDEQ(v string) predicate.Project {
+	return predicate.Project(sql.FieldEQ(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDNEQ applies the NEQ predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDNEQ(v string) predicate.Project {
+	return predicate.Project(sql.FieldNEQ(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDIn applies the In predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDIn(vs ...string) predicate.Project {
+	return predicate.Project(sql.FieldIn(FieldOwnerCharityReadableID, vs...))
+}
+
+// OwnerCharityReadableIDNotIn applies the NotIn predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDNotIn(vs ...string) predicate.Project {
+	return predicate.Project(sql.FieldNotIn(FieldOwnerCharityReadableID, vs...))
+}
+
+// OwnerCharityReadableIDGT applies the GT predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDGT(v string) predicate.Project {
+	return predicate.Project(sql.FieldGT(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDGTE applies the GTE predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDGTE(v string) predicate.Project {
+	return predicate.Project(sql.FieldGTE(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDLT applies the LT predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDLT(v string) predicate.Project {
+	return predicate.Project(sql.FieldLT(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDLTE applies the LTE predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDLTE(v string) predicate.Project {
+	return predicate.Project(sql.FieldLTE(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDContains applies the Contains predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDContains(v string) predicate.Project {
+	return predicate.Project(sql.FieldContains(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDHasPrefix applies the HasPrefix predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDHasPrefix(v string) predicate.Project {
+	return predicate.Project(sql.FieldHasPrefix(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDHasSuffix applies the HasSuffix predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDHasSuffix(v string) predicate.Project {
+	return predicate.Project(sql.FieldHasSuffix(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDEqualFold applies the EqualFold predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDEqualFold(v string) predicate.Project {
+	return predicate.Project(sql.FieldEqualFold(FieldOwnerCharityReadableID, v))
+}
+
+// OwnerCharityReadableIDContainsFold applies the ContainsFold predicate on the "owner_charity_readable_id" field.
+func OwnerCharityReadableIDContainsFold(v string) predicate.Project {
+	return predicate.Project(sql.FieldContainsFold(FieldOwnerCharityReadableID, v))
 }
 
 // And groups predicates with the AND operator between them.

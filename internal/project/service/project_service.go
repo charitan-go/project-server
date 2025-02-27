@@ -7,10 +7,11 @@ import (
 	"github.com/charitan-go/project-server/ent"
 	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/charitan-go/project-server/internal/project/repository"
+	restpkg "github.com/charitan-go/project-server/pkg/rest"
 )
 
 type ProjectService interface {
-	HandleCreateProjectRest(req *dto.CreateProjectRequestDto) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
+	HandleCreateProjectRest(req *dto.CreateProjectRequestDto, jwtPayload *restpkg.JwtPayload) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
 }
 
 type projectServiceImpl struct {
@@ -23,21 +24,27 @@ func NewProjectService(r repository.ProjectRepository) ProjectService {
 
 func (svc *projectServiceImpl) toProjectResponseDto(p *ent.Project) *dto.ProjectResponseDto {
 	return &dto.ProjectResponseDto{
-		ReadableId:  p.ReadableID.String(),
-		Name:        p.Name,
-		Description: p.Description,
-		Goal:        p.Goal,
-		StartDate:   p.StartDate.UnixMilli(),
-		EndDate:     p.EndDate.UnixMilli(),
-		Category:    string(p.Category),
-		CountryCode: p.CountryCode,
+		ReadableId:             p.ReadableID.String(),
+		Name:                   p.Name,
+		Description:            p.Description,
+		Goal:                   p.Goal,
+		StartDate:              p.StartDate.UnixMilli(),
+		EndDate:                p.EndDate.UnixMilli(),
+		Category:               string(p.Category),
+		CountryCode:            p.CountryCode,
+		Status:                 string(p.Status),
+		OwnerCharityReadableId: p.OwnerCharityReadableID,
 	}
 }
 
 // HandleCreateProjectRest implements ProjectService.
-func (svc *projectServiceImpl) HandleCreateProjectRest(req *dto.CreateProjectRequestDto) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
-	// TODO: Impl
-	saveProjectEntDto := req.ToSaveProjectEntDto()
+func (svc *projectServiceImpl) HandleCreateProjectRest(
+	req *dto.CreateProjectRequestDto,
+	jwtPayload *restpkg.JwtPayload,
+) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
+	// Get auth Dto
+	// Create project dto to save to db
+	saveProjectEntDto := req.ToSaveProjectEntDto(jwtPayload)
 
 	projectDto, err := svc.r.Save(saveProjectEntDto)
 	if err != nil {

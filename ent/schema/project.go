@@ -34,6 +34,10 @@ func (Project) Fields() []ent.Field {
 			GoType(dto.CategoryEnum("")),
 		field.String("countryCode").
 			NotEmpty(),
+		field.Enum("status").
+			GoType(dto.StatusEnum("")),
+		field.String("owner_charity_readable_id").
+			StructTag(`json:"ownerCharityReadableId"`),
 	}
 }
 

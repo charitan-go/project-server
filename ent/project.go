@@ -34,8 +34,12 @@ type Project struct {
 	// Category holds the value of the "category" field.
 	Category dto.CategoryEnum `json:"category,omitempty"`
 	// CountryCode holds the value of the "countryCode" field.
-	CountryCode  string `json:"countryCode,omitempty"`
-	selectValues sql.SelectValues
+	CountryCode string `json:"countryCode,omitempty"`
+	// Status holds the value of the "status" field.
+	Status dto.StatusEnum `json:"status,omitempty"`
+	// OwnerCharityReadableID holds the value of the "owner_charity_readable_id" field.
+	OwnerCharityReadableID string `json:"ownerCharityReadableId"`
+	selectValues           sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -45,7 +49,7 @@ func (*Project) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case project.FieldGoal:
 			values[i] = new(sql.NullFloat64)
-		case project.FieldName, project.FieldDescription, project.FieldCategory, project.FieldCountryCode:
+		case project.FieldName, project.FieldDescription, project.FieldCategory, project.FieldCountryCode, project.FieldStatus, project.FieldOwnerCharityReadableID:
 			values[i] = new(sql.NullString)
 		case project.FieldStartDate, project.FieldEndDate:
 			values[i] = new(sql.NullTime)
@@ -120,6 +124,18 @@ func (pr *Project) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				pr.CountryCode = value.String
 			}
+		case project.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				pr.Status = dto.StatusEnum(value.String)
+			}
+		case project.FieldOwnerCharityReadableID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field owner_charity_readable_id", values[i])
+			} else if value.Valid {
+				pr.OwnerCharityReadableID = value.String
+			}
 		default:
 			pr.selectValues.Set(columns[i], values[i])
 		}
@@ -179,6 +195,12 @@ func (pr *Project) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("countryCode=")
 	builder.WriteString(pr.CountryCode)
+	builder.WriteString(", ")
+	builder.WriteString("status=")
+	builder.WriteString(fmt.Sprintf("%v", pr.Status))
+	builder.WriteString(", ")
+	builder.WriteString("owner_charity_readable_id=")
+	builder.WriteString(pr.OwnerCharityReadableID)
 	builder.WriteByte(')')
 	return builder.String()
 }

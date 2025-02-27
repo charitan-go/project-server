@@ -6,6 +6,7 @@ import (
 
 	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/charitan-go/project-server/internal/project/service"
+	restpkg "github.com/charitan-go/project-server/pkg/rest"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,13 +23,19 @@ func NewProjectHandler(svc service.ProjectService) *ProjectHandler {
 }
 
 func (h *ProjectHandler) CreateProject(c echo.Context) error {
+	jwtPayload, err := restpkg.GetJwtPayload(c)
+	if err != nil {
+		log.Println("Not found header payload")
+		return c.JSON(http.StatusNonAuthoritativeInfo, dto.ErrorResponseDto{Message: "Not authorized"})
+	}
+
 	req := new(dto.CreateProjectRequestDto)
 	if err := c.Bind(req); err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request body", StatusCode: http.StatusBadRequest})
 	}
 
-	res, errRes := h.svc.HandleCreateProjectRest(req)
+	res, errRes := h.svc.HandleCreateProjectRest(req, jwtPayload)
 	if errRes != nil {
 		return c.JSON(int(errRes.StatusCode), *errRes)
 	}

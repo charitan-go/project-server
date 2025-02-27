@@ -32,22 +32,24 @@ const (
 // ProjectMutation represents an operation that mutates the Project nodes in the graph.
 type ProjectMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uuid.UUID
-	readable_id   *uuid.UUID
-	name          *string
-	description   *string
-	goal          *float64
-	addgoal       *float64
-	start_date    *time.Time
-	end_date      *time.Time
-	category      *dto.CategoryEnum
-	countryCode   *string
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Project, error)
-	predicates    []predicate.Project
+	op                        Op
+	typ                       string
+	id                        *uuid.UUID
+	readable_id               *uuid.UUID
+	name                      *string
+	description               *string
+	goal                      *float64
+	addgoal                   *float64
+	start_date                *time.Time
+	end_date                  *time.Time
+	category                  *dto.CategoryEnum
+	countryCode               *string
+	status                    *dto.StatusEnum
+	owner_charity_readable_id *string
+	clearedFields             map[string]struct{}
+	done                      bool
+	oldValue                  func(context.Context) (*Project, error)
+	predicates                []predicate.Project
 }
 
 var _ ent.Mutation = (*ProjectMutation)(nil)
@@ -462,6 +464,78 @@ func (m *ProjectMutation) ResetCountryCode() {
 	m.countryCode = nil
 }
 
+// SetStatus sets the "status" field.
+func (m *ProjectMutation) SetStatus(de dto.StatusEnum) {
+	m.status = &de
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *ProjectMutation) Status() (r dto.StatusEnum, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Project entity.
+// If the Project object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ProjectMutation) OldStatus(ctx context.Context) (v dto.StatusEnum, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *ProjectMutation) ResetStatus() {
+	m.status = nil
+}
+
+// SetOwnerCharityReadableID sets the "owner_charity_readable_id" field.
+func (m *ProjectMutation) SetOwnerCharityReadableID(s string) {
+	m.owner_charity_readable_id = &s
+}
+
+// OwnerCharityReadableID returns the value of the "owner_charity_readable_id" field in the mutation.
+func (m *ProjectMutation) OwnerCharityReadableID() (r string, exists bool) {
+	v := m.owner_charity_readable_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOwnerCharityReadableID returns the old "owner_charity_readable_id" field's value of the Project entity.
+// If the Project object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ProjectMutation) OldOwnerCharityReadableID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOwnerCharityReadableID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOwnerCharityReadableID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOwnerCharityReadableID: %w", err)
+	}
+	return oldValue.OwnerCharityReadableID, nil
+}
+
+// ResetOwnerCharityReadableID resets all changes to the "owner_charity_readable_id" field.
+func (m *ProjectMutation) ResetOwnerCharityReadableID() {
+	m.owner_charity_readable_id = nil
+}
+
 // Where appends a list predicates to the ProjectMutation builder.
 func (m *ProjectMutation) Where(ps ...predicate.Project) {
 	m.predicates = append(m.predicates, ps...)
@@ -496,7 +570,7 @@ func (m *ProjectMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ProjectMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 10)
 	if m.readable_id != nil {
 		fields = append(fields, project.FieldReadableID)
 	}
@@ -520,6 +594,12 @@ func (m *ProjectMutation) Fields() []string {
 	}
 	if m.countryCode != nil {
 		fields = append(fields, project.FieldCountryCode)
+	}
+	if m.status != nil {
+		fields = append(fields, project.FieldStatus)
+	}
+	if m.owner_charity_readable_id != nil {
+		fields = append(fields, project.FieldOwnerCharityReadableID)
 	}
 	return fields
 }
@@ -545,6 +625,10 @@ func (m *ProjectMutation) Field(name string) (ent.Value, bool) {
 		return m.Category()
 	case project.FieldCountryCode:
 		return m.CountryCode()
+	case project.FieldStatus:
+		return m.Status()
+	case project.FieldOwnerCharityReadableID:
+		return m.OwnerCharityReadableID()
 	}
 	return nil, false
 }
@@ -570,6 +654,10 @@ func (m *ProjectMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldCategory(ctx)
 	case project.FieldCountryCode:
 		return m.OldCountryCode(ctx)
+	case project.FieldStatus:
+		return m.OldStatus(ctx)
+	case project.FieldOwnerCharityReadableID:
+		return m.OldOwnerCharityReadableID(ctx)
 	}
 	return nil, fmt.Errorf("unknown Project field %s", name)
 }
@@ -634,6 +722,20 @@ func (m *ProjectMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCountryCode(v)
+		return nil
+	case project.FieldStatus:
+		v, ok := value.(dto.StatusEnum)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case project.FieldOwnerCharityReadableID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOwnerCharityReadableID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Project field %s", name)
@@ -722,6 +824,12 @@ func (m *ProjectMutation) ResetField(name string) error {
 		return nil
 	case project.FieldCountryCode:
 		m.ResetCountryCode()
+		return nil
+	case project.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case project.FieldOwnerCharityReadableID:
+		m.ResetOwnerCharityReadableID()
 		return nil
 	}
 	return fmt.Errorf("unknown Project field %s", name)

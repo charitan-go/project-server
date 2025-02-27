@@ -19,6 +19,8 @@ var (
 		{Name: "end_date", Type: field.TypeTime},
 		{Name: "category", Type: field.TypeEnum, Enums: []string{"FOOD", "HEALTH", "EDUCATION", "ENVIRONMENT", "RELIGION", "HOUSING", "OTHER"}},
 		{Name: "country_code", Type: field.TypeString},
+		{Name: "status", Type: field.TypeEnum, Enums: []string{"PENDING", "APPROVED", "DENIED", "HALTED", "FINISHED", "DELETED"}},
+		{Name: "owner_charity_readable_id", Type: field.TypeString},
 	}
 	// ProjectsTable holds the schema information for the "projects" table.
 	ProjectsTable = &schema.Table{

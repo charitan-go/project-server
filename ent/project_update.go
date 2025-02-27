@@ -149,6 +149,34 @@ func (pu *ProjectUpdate) SetNillableCountryCode(s *string) *ProjectUpdate {
 	return pu
 }
 
+// SetStatus sets the "status" field.
+func (pu *ProjectUpdate) SetStatus(de dto.StatusEnum) *ProjectUpdate {
+	pu.mutation.SetStatus(de)
+	return pu
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableStatus(de *dto.StatusEnum) *ProjectUpdate {
+	if de != nil {
+		pu.SetStatus(*de)
+	}
+	return pu
+}
+
+// SetOwnerCharityReadableID sets the "owner_charity_readable_id" field.
+func (pu *ProjectUpdate) SetOwnerCharityReadableID(s string) *ProjectUpdate {
+	pu.mutation.SetOwnerCharityReadableID(s)
+	return pu
+}
+
+// SetNillableOwnerCharityReadableID sets the "owner_charity_readable_id" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableOwnerCharityReadableID(s *string) *ProjectUpdate {
+	if s != nil {
+		pu.SetOwnerCharityReadableID(*s)
+	}
+	return pu
+}
+
 // Mutation returns the ProjectMutation object of the builder.
 func (pu *ProjectUpdate) Mutation() *ProjectMutation {
 	return pu.mutation
@@ -203,6 +231,11 @@ func (pu *ProjectUpdate) check() error {
 			return &ValidationError{Name: "countryCode", err: fmt.Errorf(`ent: validator failed for field "Project.countryCode": %w`, err)}
 		}
 	}
+	if v, ok := pu.mutation.Status(); ok {
+		if err := project.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Project.status": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -244,6 +277,12 @@ func (pu *ProjectUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := pu.mutation.CountryCode(); ok {
 		_spec.SetField(project.FieldCountryCode, field.TypeString, value)
+	}
+	if value, ok := pu.mutation.Status(); ok {
+		_spec.SetField(project.FieldStatus, field.TypeEnum, value)
+	}
+	if value, ok := pu.mutation.OwnerCharityReadableID(); ok {
+		_spec.SetField(project.FieldOwnerCharityReadableID, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -384,6 +423,34 @@ func (puo *ProjectUpdateOne) SetNillableCountryCode(s *string) *ProjectUpdateOne
 	return puo
 }
 
+// SetStatus sets the "status" field.
+func (puo *ProjectUpdateOne) SetStatus(de dto.StatusEnum) *ProjectUpdateOne {
+	puo.mutation.SetStatus(de)
+	return puo
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableStatus(de *dto.StatusEnum) *ProjectUpdateOne {
+	if de != nil {
+		puo.SetStatus(*de)
+	}
+	return puo
+}
+
+// SetOwnerCharityReadableID sets the "owner_charity_readable_id" field.
+func (puo *ProjectUpdateOne) SetOwnerCharityReadableID(s string) *ProjectUpdateOne {
+	puo.mutation.SetOwnerCharityReadableID(s)
+	return puo
+}
+
+// SetNillableOwnerCharityReadableID sets the "owner_charity_readable_id" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableOwnerCharityReadableID(s *string) *ProjectUpdateOne {
+	if s != nil {
+		puo.SetOwnerCharityReadableID(*s)
+	}
+	return puo
+}
+
 // Mutation returns the ProjectMutation object of the builder.
 func (puo *ProjectUpdateOne) Mutation() *ProjectMutation {
 	return puo.mutation
@@ -451,6 +518,11 @@ func (puo *ProjectUpdateOne) check() error {
 			return &ValidationError{Name: "countryCode", err: fmt.Errorf(`ent: validator failed for field "Project.countryCode": %w`, err)}
 		}
 	}
+	if v, ok := puo.mutation.Status(); ok {
+		if err := project.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Project.status": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -509,6 +581,12 @@ func (puo *ProjectUpdateOne) sqlSave(ctx context.Context) (_node *Project, err e
 	}
 	if value, ok := puo.mutation.CountryCode(); ok {
 		_spec.SetField(project.FieldCountryCode, field.TypeString, value)
+	}
+	if value, ok := puo.mutation.Status(); ok {
+		_spec.SetField(project.FieldStatus, field.TypeEnum, value)
+	}
+	if value, ok := puo.mutation.OwnerCharityReadableID(); ok {
+		_spec.SetField(project.FieldOwnerCharityReadableID, field.TypeString, value)
 	}
 	_node = &Project{config: puo.config}
 	_spec.Assign = _node.assignValues
