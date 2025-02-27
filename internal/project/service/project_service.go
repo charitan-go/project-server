@@ -52,7 +52,7 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 
 	projectDto, err := svc.r.Save(saveProjectEntDto)
 	if err != nil {
-		log.Fatalf("Cannot save project to db: %v\n", err)
+		log.Printf("Cannot save project to db: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusInternalServerError, Message: "Cannot create project."}
 	}
 
@@ -66,12 +66,14 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 ) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
 	projectId, err := uuid.FromBytes([]byte(projectIdStr))
 	if err != nil {
+		log.Printf("Cannot convert str to id: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
 	}
 
 	// Find project by id
 	projectDto, err := svc.r.FindOneByReadableId(projectId)
 	if err != nil {
+		log.Printf("Cannot find project: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
 	}
 
