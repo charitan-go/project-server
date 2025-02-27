@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/charitan-go/project-server/ent"
@@ -40,6 +41,7 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(req *dto.CreateProjectReq
 
 	projectDto, err := svc.r.Save(saveProjectEntDto)
 	if err != nil {
+		log.Fatalf("Cannot save project to db: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusInternalServerError, Message: "Cannot create project."}
 	}
 

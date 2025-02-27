@@ -3,10 +3,10 @@ package database
 import (
 	"context"
 	"fmt"
+	"github.com/charitan-go/project-server/ent"
+	_ "github.com/lib/pq"
 	"log"
 	"os"
-
-	"github.com/charitan-go/project-server/ent"
 )
 
 // var DB *gorm.DB
@@ -27,7 +27,7 @@ func connect() error {
 		log.Fatalf("failed opening connection to postgres: %v", err)
 		return err
 	}
-	defer Client.Close()
+	// defer Client.Close()
 	// Run the auto migration tool.
 	if err := Client.Schema.Create(context.Background()); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
