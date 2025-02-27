@@ -8,10 +8,13 @@ import (
 	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/charitan-go/project-server/internal/project/repository"
 	restpkg "github.com/charitan-go/project-server/pkg/rest"
+	"github.com/google/uuid"
 )
 
 type ProjectService interface {
 	HandleCreateProjectRest(req *dto.CreateProjectRequestDto, jwtPayload *restpkg.JwtPayload) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
+
+	HandleGetProjectByIdRest(projectId string) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
 }
 
 type projectServiceImpl struct {
@@ -42,7 +45,8 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 	req *dto.CreateProjectRequestDto,
 	jwtPayload *restpkg.JwtPayload,
 ) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
-	// Get auth Dto
+	// Validation for date
+
 	// Create project dto to save to db
 	saveProjectEntDto := req.ToSaveProjectEntDto(jwtPayload)
 
@@ -50,6 +54,25 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 	if err != nil {
 		log.Fatalf("Cannot save project to db: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusInternalServerError, Message: "Cannot create project."}
+	}
+
+	responseDto := svc.toProjectResponseDto(projectDto)
+
+	return responseDto, nil
+}
+
+func (svc *projectServiceImpl) HandleGetProjectByIdRest(
+	projectIdStr string,
+) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
+	projectId, err := uuid.FromBytes([]byte(projectIdStr))
+	if err != nil {
+		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
+	}
+
+	// Find project by id
+	projectDto, err := svc.r.FindOneByReadableId(projectId)
+	if err != nil {
+		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
 	}
 
 	responseDto := svc.toProjectResponseDto(projectDto)

@@ -43,6 +43,17 @@ func (h *ProjectHandler) CreateProject(c echo.Context) error {
 	return c.JSON(http.StatusCreated, *res)
 }
 
+func (h *ProjectHandler) GetProjectById(c echo.Context) error {
+	projectId := c.Param("id")
+
+	res, errRes := h.svc.HandleGetProjectByIdRest(projectId)
+	if errRes != nil {
+		return c.JSON(int(errRes.StatusCode), *errRes)
+	}
+
+	return c.JSON(http.StatusCreated, *res)
+}
+
 // func (h *ProjectHandler) RegisterDonor(c echo.Context) error {
 // 	req := new(dto.RegisterDonorRequestDto)
 // 	if err := c.Bind(req); err != nil {

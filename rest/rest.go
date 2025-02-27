@@ -33,6 +33,8 @@ func (s *RestServer) setupRouting() {
 
 	s.echo.POST("/", s.api.ProjectHandler.CreateProject)
 
+	s.echo.GET("/id/:projectId", s.api.ProjectHandler.GetProjectById)
+
 }
 
 func (s *RestServer) setupMiddleware() {

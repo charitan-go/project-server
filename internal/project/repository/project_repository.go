@@ -5,13 +5,17 @@ import (
 	"log"
 
 	"github.com/charitan-go/project-server/ent"
+	"github.com/charitan-go/project-server/ent/project"
 	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/charitan-go/project-server/pkg/database"
+	"github.com/google/uuid"
 )
 
 type ProjectRepository interface {
 	// Save(projectModel *model.Project) (*model.Project, error)
 	Save(*dto.SaveProjectEntDto) (*ent.Project, error)
+
+	FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error)
 }
 
 type projectRepositoryImpl struct {
@@ -44,6 +48,19 @@ func (r *projectRepositoryImpl) Save(entDto *dto.SaveProjectEntDto) (*ent.Projec
 		SetOwnerCharityReadableID(entDto.OwnerCharityReadableId).
 		SetStatus(entDto.Status).
 		Save(context.Background())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return project, nil
+}
+
+func (r *projectRepositoryImpl) FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error) {
+	project, err := r.client.Project.
+		Query().
+		Where(project.ReadableID(readableId)).
+		Only(context.Background())
 
 	if err != nil {
 		return nil, err
