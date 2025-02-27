@@ -31,6 +31,8 @@ func NewRestServer(echo *echo.Echo, api *api.Api) *RestServer {
 func (s *RestServer) setupRouting() {
 	s.echo.GET("/health", s.api.HealthCheck)
 
+	s.echo.POST("/", s.api.ProjectHandler.CreateProject)
+
 }
 
 func (s *RestServer) setupMiddleware() {

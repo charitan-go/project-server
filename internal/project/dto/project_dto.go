@@ -1,60 +1,84 @@
 package dto
 
-type RoleEnum string
+import "time"
+
+type StatusEnum string
 
 const (
-	RoleCharity RoleEnum = "CHARITY"
-	RoleDonor   RoleEnum = "DONOR"
+	StatusPending StatusEnum = "PENDING"
+
+	StatusApproved StatusEnum = "APPROVED"
+	StatusDenied   StatusEnum = "DENIED"
+
+	StatusHalted   StatusEnum = "HALTED"
+	StatusFinished StatusEnum = "FINISHED"
+
+	StatusDeleted StatusEnum = "DELETED"
 )
 
-type RegisterDonorRequestDto struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
-	Address   string `json:"address"`
+type CategoryEnum string
+
+const (
+	CategoryFood         CategoryEnum = "FOOD"
+	CategoryHealth       CategoryEnum = "HEALTH"
+	CategoryEducation    CategoryEnum = "EDUCATION"
+	CategoryEnvironment  CategoryEnum = "ENVIRONMENT"
+	CategoryReligion     CategoryEnum = "RELIGION"
+	CategoryHumanitarian CategoryEnum = "HUMANTARIAN"
+	CategoryHousing      CategoryEnum = "HOUSING"
+	CategoryOther        CategoryEnum = "OTHER"
+)
+
+// Values provides list valid values for Enum.
+func (CategoryEnum) Values() (kinds []string) {
+	for _, s := range []CategoryEnum{
+		CategoryFood,
+		CategoryHealth,
+		CategoryEducation,
+		CategoryEnvironment,
+		CategoryReligion,
+		CategoryHousing,
+		CategoryOther,
+	} {
+		kinds = append(kinds, string(s))
+	}
+	return
 }
 
-type RegisterCharityRequestDto struct {
-	OrganizationName string `json:"organizationName"`
-	TaxCode          string `json:"taxCode"`
-	Email            string `json:"email"`
-	Password         string `json:"password"`
-	Address          string `json:"address"`
+type CreateProjectRequestDto struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Goal        float64 `json:"goal"`
+
+	StartDate int64 `json:"startDate"`
+	EndDate   int64 `json:"endDate"`
+
+	Category    string `json:"category"`
+	CountryCode string `json:"countryCode"`
 }
 
-type RegisterResponseDto struct {
-	Message string `json:"message"`
+type ProjectResponseDto struct {
+	ReadableId string `json:"readableId"`
+
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Goal        float64 `json:"goal"`
+
+	StartDate int64 `json:"startDate"`
+	EndDate   int64 `json:"endDate"`
+
+	Category    string `json:"category"`
+	CountryCode string `json:"countryCode"`
 }
 
-type LoginUserRequestDto struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type LoginUserResponseDto struct {
-	Token string `json:"token"`
-}
-
-type GetMeResponseDto struct {
-	ProfileReadableId string `json:"profileReadableIdId"`
-	Email             string `json:"email"`
-	Role              string `json:"role"`
-
-	DonorDetails   *GetMeDonorDetailsResponseDto   `json:"donorDetails,omitempty"`
-	CharityDetails *GetMeCharityDetailsResponseDto `json:"charityDetails,omitempty"`
-}
-
-type GetMeDonorDetailsResponseDto struct {
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Address   string `json:"address"`
-}
-
-type GetMeCharityDetailsResponseDto struct {
-	OrganizationName string `json:"organizationName"`
-	TaxCode          string `json:"taxCode"`
-	Address          string `json:"address"`
+type SaveProjectEntDto struct {
+	Name        string
+	Description string
+	Goal        float64
+	StartDate   time.Time
+	EndDate     time.Time
+	Category    string
+	CountryCode string
 }
 
 type MessageResponseDto struct {
@@ -64,4 +88,16 @@ type MessageResponseDto struct {
 type ErrorResponseDto struct {
 	Message    string `json:"message"`
 	StatusCode uint   `json:"statusCode"`
+}
+
+func (d *CreateProjectRequestDto) ToSaveProjectEntDto() *SaveProjectEntDto {
+	return &SaveProjectEntDto{
+		Name:        d.Name,
+		Description: d.Description,
+		Goal:        d.Goal,
+		StartDate:   time.UnixMilli(d.StartDate),
+		EndDate:     time.UnixMilli(d.EndDate),
+		Category:    d.Category,
+		CountryCode: d.CountryCode,
+	}
 }
