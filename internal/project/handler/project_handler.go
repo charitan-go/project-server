@@ -62,7 +62,7 @@ func (h *ProjectHandler) GetProjects(c echo.Context) error {
 		if pageStr != "" {
 			return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
 		}
-		page = 0
+		page = 1
 	}
 
 	size, err := strconv.Atoi(sizeStr)
@@ -71,6 +71,10 @@ func (h *ProjectHandler) GetProjects(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
 		}
 		size = 10
+	}
+
+	if page <= 0 || size <= 0 {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
 	}
 
 	res, errRes := h.svc.HandleGetProjectsRest(page, size)
