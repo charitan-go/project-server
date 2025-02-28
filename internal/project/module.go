@@ -11,6 +11,7 @@ var ProjectModule = fx.Module("project",
 	fx.Provide(
 		handler.NewProjectHandler,
 		service.NewProjectService,
+		service.NewProjectRedisService,
 		repository.NewProjectRepository,
 	),
 )
