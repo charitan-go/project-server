@@ -33,7 +33,7 @@ func (s *RestServer) setupRouting() {
 
 	s.echo.POST("/create", s.api.ProjectHandler.CreateProject)
 
-	s.echo.GET("/get", s.api.ProjectHandler.GetProjects)
+	s.echo.POST("/get", s.api.ProjectHandler.GetProjects)
 
 	s.echo.GET("/id/:projectId", s.api.ProjectHandler.GetProjectById)
 }
