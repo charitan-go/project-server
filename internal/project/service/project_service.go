@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -19,11 +20,15 @@ type ProjectService interface {
 }
 
 type projectServiceImpl struct {
-	r repository.ProjectRepository
+	r        repository.ProjectRepository
+	redisSvc ProjectRedisService
 }
 
-func NewProjectService(r repository.ProjectRepository) ProjectService {
-	return &projectServiceImpl{r}
+func NewProjectService(
+	r repository.ProjectRepository,
+	redisSvc ProjectRedisService,
+) ProjectService {
+	return &projectServiceImpl{r, redisSvc}
 }
 
 func (svc *projectServiceImpl) toProjectResponseDto(p *ent.Project) *dto.ProjectResponseDto {
@@ -65,6 +70,8 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 	projectIdStr string,
 ) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
+	ctx := context.Background()
+
 	log.Printf("Project id: %s", projectIdStr)
 	projectId, err := uuid.Parse(projectIdStr)
 	if err != nil {
@@ -77,6 +84,11 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 	if err != nil {
 		log.Printf("Cannot find project: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
+	}
+
+	err = svc.redisSvc.SetById(ctx, projectDto)
+	if err != nil {
+		log.Printf("Cannot save to redis: %v\n", err)
 	}
 
 	responseDto := svc.toProjectResponseDto(projectDto)

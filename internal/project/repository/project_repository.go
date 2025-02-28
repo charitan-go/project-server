@@ -62,6 +62,9 @@ func (r *projectRepositoryImpl) FindAll(page int, size int) ([]*ent.Project, err
 	projectList, err := r.client.Project.
 		Query().
 		Offset((page - 1) * size).
+		Order(
+			project.ByStartDate(),
+		).
 		All(context.Background())
 
 	if err != nil {
