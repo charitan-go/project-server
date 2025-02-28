@@ -1,12 +1,15 @@
 package database
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/charitan-go/project-server/ent"
 	_ "github.com/lib/pq"
+
+	// "gorm.io/driver/postgres"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -29,6 +32,9 @@ func connect() error {
 		log.Printf("failed opening connection to postgres: %v", err)
 		return err
 	}
+	if err := Client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+	}
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -38,15 +44,6 @@ func connect() error {
 
 	return err
 }
-
-// func migrate() error {
-// 	if err := DB.AutoMigrate(&model.Project{}); err != nil {
-// 		log.Println("Migrate failed")
-// 		return err
-// 	}
-//
-// 	return nil
-// }
 
 func seedData() error {
 	sqlScript, err := os.ReadFile("resource/data.sql")

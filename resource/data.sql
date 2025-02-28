@@ -1,3 +1,6 @@
+-- Ensure the pgcrypto extension is enabled (for gen_random_uuid(), if used elsewhere)
+--CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 INSERT INTO projects (
     readable_id,
     name,
@@ -6,7 +9,7 @@ INSERT INTO projects (
     start_date,
     end_date,
     category,
-    countryCode,
+    country_code,
     status,
     owner_charity_readable_id
 ) VALUES
