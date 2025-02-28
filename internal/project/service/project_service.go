@@ -79,7 +79,8 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
 	}
 
-	// Find in redis first
+	// TODO: Find in redis first
+	_, err = svc.redisSvc.GetById(ctx, projectIdStr)
 
 	// Find project by id
 	projectDto, err := svc.r.FindOneByReadableId(projectId)

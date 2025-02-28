@@ -14,6 +14,7 @@ const (
 
 type RedisService interface {
 	Set(ctx context.Context, key string, value []byte) error
+	Get(ctx context.Context, key string) (string, error)
 }
 
 type redisServiceImpl struct {
@@ -30,4 +31,10 @@ func (svc *redisServiceImpl) Set(ctx context.Context, key string, value []byte) 
 	result, err := svc.client.Set(ctx, key, value, 0).Result()
 	log.Printf("Redis set result: %v\n", result)
 	return err
+}
+
+func (svc *redisServiceImpl) Get(ctx context.Context, key string) (string, error) {
+	result, err := svc.client.Get(ctx, key).Result()
+	log.Printf("Get result: %v\n", result)
+	return result, err
 }
