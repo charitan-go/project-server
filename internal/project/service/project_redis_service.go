@@ -59,7 +59,13 @@ func (svc *projectRedisServiceImpl) GetById(ctx context.Context, id string) (*en
 		return nil, err
 	}
 
-	// TODO: Full impl
-	log.Printf("Result from get redis: %v\n", result)
-	return nil, nil
+	// Parse result to *ent.Project
+	p := &ent.Project{}
+	err = json.Unmarshal([]byte(result), p)
+	if err != nil {
+		log.Printf("Cannot parse from string to *ent.Project: %v\n", err)
+		return nil, err
+	}
+
+	return p, nil
 }

@@ -80,8 +80,19 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 	}
 
 	// TODO: Find in redis first
-	_, err = svc.redisSvc.GetById(ctx, projectIdStr)
+	p, err := svc.redisSvc.GetById(ctx, projectIdStr)
+	if err != nil {
+		log.Printf("Cannot get by id from redis: %v\n", err)
+	}
 
+	// Can find string from redis
+	if p != nil {
+		log.Println("CACHED HIT!!!")
+		responseDto := svc.toProjectResponseDto(p)
+		return responseDto, nil
+	}
+
+	log.Println("CACHED MISS!!!")
 	// Find project by id
 	projectDto, err := svc.r.FindOneByReadableId(projectId)
 	if err != nil {
