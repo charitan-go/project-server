@@ -15,6 +15,7 @@ type ProjectRepository interface {
 	// Save(projectModel *model.Project) (*model.Project, error)
 	Save(*dto.SaveProjectEntDto) (*ent.Project, error)
 
+	FindAll(page, size int) ([]*ent.Project, error)
 	FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error)
 }
 
@@ -54,6 +55,20 @@ func (r *projectRepositoryImpl) Save(entDto *dto.SaveProjectEntDto) (*ent.Projec
 	}
 
 	return project, nil
+}
+
+// FindAll implements ProjectRepository.
+func (r *projectRepositoryImpl) FindAll(page int, size int) ([]*ent.Project, error) {
+	projectList, err := r.client.Project.
+		Query().
+		Offset((page - 1) * size).
+		All(context.Background())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return projectList, err
 }
 
 func (r *projectRepositoryImpl) FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error) {
