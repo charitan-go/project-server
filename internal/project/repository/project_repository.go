@@ -1,62 +1,93 @@
 package repository
 
 import (
-	"github.com/charitan-go/project-server/internal/project/model"
-	"github.com/charitan-go/project-server/pkg/database"
-	"gorm.io/gorm"
+	"context"
 	"log"
+
+	"github.com/charitan-go/project-server/ent"
+	"github.com/charitan-go/project-server/ent/project"
+	"github.com/charitan-go/project-server/internal/project/dto"
+	"github.com/charitan-go/project-server/pkg/database"
+	"github.com/google/uuid"
 )
 
 type ProjectRepository interface {
-	Save(projectModel *model.Project) (*model.Project, error)
+	// Save(projectModel *model.Project) (*model.Project, error)
+	Save(*dto.SaveProjectEntDto) (*ent.Project, error)
 
-	FindOneByEmail(email string) (*model.Project, error)
-	FindOneByReadableId(readableId string) (*model.Project, error)
+	FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error)
 }
 
 type projectRepositoryImpl struct {
-	db *gorm.DB
+	client *ent.Client
+	// db *gorm.DB
 }
 
 func NewProjectRepository() ProjectRepository {
-	db := database.DB
-	if db == nil {
+	// db := database.DB
+	client := database.Client
+	if client == nil {
 		log.Println("db is nil")
 	} else {
 		log.Println("db is not nil")
 	}
 
-	return &projectRepositoryImpl{db: database.DB}
+	return &projectRepositoryImpl{client}
 }
 
-func (r *projectRepositoryImpl) Save(projectModel *model.Project) (*model.Project, error) {
-	result := r.db.Create(projectModel)
-	if result.Error != nil {
-		return nil, result.Error
+func (r *projectRepositoryImpl) Save(entDto *dto.SaveProjectEntDto) (*ent.Project, error) {
+	project, err := r.client.Project.
+		Create().
+		SetName(entDto.Name).
+		SetDescription(entDto.Description).
+		SetGoal(entDto.Goal).
+		SetStartDate(entDto.StartDate).
+		SetEndDate(entDto.EndDate).
+		SetCategory(entDto.Category).
+		SetCountryCode(entDto.CountryCode).
+		SetOwnerCharityReadableID(entDto.OwnerCharityReadableId).
+		SetStatus(entDto.Status).
+		Save(context.Background())
+
+	if err != nil {
+		return nil, err
 	}
 
-	return projectModel, nil
+	return project, nil
 }
 
-func (r *projectRepositoryImpl) FindOneByEmail(email string) (*model.Project, error) {
-	var project model.Project
+func (r *projectRepositoryImpl) FindOneByReadableId(readableId uuid.UUID) (*ent.Project, error) {
+	project, err := r.client.Project.
+		Query().
+		Where(project.ReadableID(readableId)).
+		Only(context.Background())
 
-	result := r.db.Where("email = ?", email).First(&project)
-	if result.Error != nil {
-		return nil, result.Error
+	if err != nil {
+		return nil, err
 	}
 
-	return &project, nil
+	return project, nil
 }
 
-// FindOneByReadableId implements ProjectRepository.
-func (r *projectRepositoryImpl) FindOneByReadableId(readableId string) (*model.Project, error) {
-	var project model.Project
-
-	result := r.db.Where("readable_id = ?", readableId).First(&project)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-
-	return &project, nil
-}
+// func (r *projectRepositoryImpl) FindOneByEmail(email string) (*model.Project, error) {
+// 	var project model.Project
+//
+// 	result := r.db.Where("email = ?", email).First(&project)
+// 	if result.Error != nil {
+// 		return nil, result.Error
+// 	}
+//
+// 	return &project, nil
+// }
+//
+// // FindOneByReadableId implements ProjectRepository.
+// func (r *projectRepositoryImpl) FindOneByReadableId(readableId string) (*model.Project, error) {
+// 	var project model.Project
+//
+// 	result := r.db.Where("readable_id = ?", readableId).First(&project)
+// 	if result.Error != nil {
+// 		return nil, result.Error
+// 	}
+//
+// 	return &project, nil
+// }
