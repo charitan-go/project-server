@@ -63,7 +63,7 @@ INSERT INTO projects (
     start_date,
     end_date,
     category,
-    countryCode,
+    country_code,
     status,
     owner_charity_readable_id
 ) VALUES
