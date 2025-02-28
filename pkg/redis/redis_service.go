@@ -27,7 +27,7 @@ func NewRedisService() RedisService {
 
 // Set implements RedisService.
 func (svc *redisServiceImpl) Set(ctx context.Context, key string, value []byte) error {
-	result, err := svc.client.Set(ctx, key, value, REDIS_TTL).Result()
+	result, err := svc.client.Set(ctx, key, value, 0).Result()
 	log.Printf("Redis set result: %v\n", result)
 	return err
 }
