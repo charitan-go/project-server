@@ -51,6 +51,8 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 	req *dto.CreateProjectRequestDto,
 	jwtPayload *restpkg.JwtPayload,
 ) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
+	ctx := context.Background()
+
 	// Validation for date
 
 	// Create project dto to save to db
@@ -60,6 +62,12 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 	if err != nil {
 		log.Printf("Cannot save project to db: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusInternalServerError, Message: "Cannot create project."}
+	}
+
+	// Cache to redis
+	err = svc.redisSvc.SetById(ctx, projectDto)
+	if err != nil {
+		log.Printf("Cannot save to redis: %v\n", err)
 	}
 
 	responseDto := svc.toProjectResponseDto(projectDto)
@@ -79,7 +87,19 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
 	}
 
-	// Find in redis first
+	// TODO: Find in redis first
+	p, err := svc.redisSvc.GetById(ctx, projectIdStr)
+	if err != nil {
+		log.Printf("Cannot get by id from redis: %v\n", err)
+	}
+
+	// Can find string from redis
+	if p != nil {
+		log.Println("CACHED HIT!!!")
+		responseDto := svc.toProjectResponseDto(p)
+		return responseDto, nil
+	}
+	log.Println("CACHED MISS!!!")
 
 	// Find project by id
 	projectDto, err := svc.r.FindOneByReadableId(projectId)

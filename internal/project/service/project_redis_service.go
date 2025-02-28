@@ -16,6 +16,7 @@ const (
 
 type ProjectRedisService interface {
 	SetById(ctx context.Context, p *ent.Project) error
+	GetById(ctx context.Context, id string) (*ent.Project, error)
 }
 
 type projectRedisServiceImpl struct {
@@ -26,14 +27,13 @@ func NewProjectRedisService(redisSvc redispkg.RedisService) ProjectRedisService 
 	return &projectRedisServiceImpl{redisSvc}
 }
 
-func (svc *projectRedisServiceImpl) getSetByIdKey(p *ent.Project) string {
-	id := p.ReadableID.String()
+func (svc *projectRedisServiceImpl) getByIdKey(id string) string {
 	return fmt.Sprintf("%s:%s", SET_BY_ID_KEY, id)
 }
 
 // SetById implements ProjectRedisService.
 func (svc *projectRedisServiceImpl) SetById(ctx context.Context, p *ent.Project) error {
-	key := svc.getSetByIdKey(p)
+	key := svc.getByIdKey(p.ReadableID.String())
 
 	value, err := json.Marshal(p)
 	if err != nil {
@@ -48,4 +48,24 @@ func (svc *projectRedisServiceImpl) SetById(ctx context.Context, p *ent.Project)
 	}
 
 	return nil
+}
+
+func (svc *projectRedisServiceImpl) GetById(ctx context.Context, id string) (*ent.Project, error) {
+	key := svc.getByIdKey(id)
+
+	result, err := svc.redisSvc.Get(ctx, key)
+	if err != nil {
+		log.Printf("Cannot get from redis: %v\n", err)
+		return nil, err
+	}
+
+	// Parse result to *ent.Project
+	p := &ent.Project{}
+	err = json.Unmarshal([]byte(result), p)
+	if err != nil {
+		log.Printf("Cannot parse from string to *ent.Project: %v\n", err)
+		return nil, err
+	}
+
+	return p, nil
 }
