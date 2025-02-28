@@ -15,6 +15,7 @@ type ProjectService interface {
 	HandleCreateProjectRest(req *dto.CreateProjectRequestDto, jwtPayload *restpkg.JwtPayload) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
 
 	HandleGetProjectByIdRest(projectId string) (*dto.ProjectResponseDto, *dto.ErrorResponseDto)
+	HandleGetProjectsRest(page, size int) ([]*dto.ProjectResponseDto, *dto.ErrorResponseDto)
 }
 
 type projectServiceImpl struct {
@@ -79,6 +80,24 @@ func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 	}
 
 	responseDto := svc.toProjectResponseDto(projectDto)
+
+	return responseDto, nil
+}
+
+// HandleGetProjectsRest implements ProjectService.
+func (svc *projectServiceImpl) HandleGetProjectsRest(page int, size int) ([]*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
+	// Query project
+	projectDtoList, err := svc.r.FindAll(page, size)
+	if err != nil {
+		log.Printf("Cannot query: %v\n", err)
+		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}
+	}
+
+	// Map to response dto
+	responseDto := make([]*dto.ProjectResponseDto, len(projectDtoList))
+	for i, dto := range projectDtoList {
+		responseDto[i] = svc.toProjectResponseDto(dto)
+	}
 
 	return responseDto, nil
 }

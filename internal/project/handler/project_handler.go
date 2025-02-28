@@ -3,6 +3,7 @@ package handler
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/charitan-go/project-server/internal/project/dto"
 	"github.com/charitan-go/project-server/internal/project/service"
@@ -54,17 +55,32 @@ func (h *ProjectHandler) GetProjectById(c echo.Context) error {
 	return c.JSON(http.StatusCreated, *res)
 }
 
-// func (h *ProjectHandler) RegisterDonor(c echo.Context) error {
-// 	req := new(dto.RegisterDonorRequestDto)
-// 	if err := c.Bind(req); err != nil {
-// 		log.Println(err)
-// 		return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request bodyy", StatusCode: http.StatusBadRequest})
-// 	}
-//
-// 	res, errRes := h.svc.HandleRegisterDonorRest(req)
-// 	if errRes != nil {
-// 		return c.JSON(int(errRes.StatusCode), *errRes)
-// 	}
-//
-// 	return c.JSON(http.StatusCreated, *res)
-// }
+func (h *ProjectHandler) GetProjects(c echo.Context) error {
+	pageStr, sizeStr := c.Param("page"), c.Param("size")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		if pageStr != "" {
+			return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
+		}
+		page = 1
+	}
+
+	size, err := strconv.Atoi(sizeStr)
+	if err != nil {
+		if sizeStr != "" {
+			return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
+		}
+		size = 10
+	}
+
+	if page <= 0 || size <= 0 {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponseDto{Message: "Invalid request param", StatusCode: http.StatusBadRequest})
+	}
+
+	res, errRes := h.svc.HandleGetProjectsRest(page, size)
+	if errRes != nil {
+		return c.JSON(int(errRes.StatusCode), *errRes)
+	}
+
+	return c.JSON(http.StatusCreated, res)
+}
