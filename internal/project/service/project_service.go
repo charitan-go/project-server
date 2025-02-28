@@ -64,7 +64,8 @@ func (svc *projectServiceImpl) HandleCreateProjectRest(
 func (svc *projectServiceImpl) HandleGetProjectByIdRest(
 	projectIdStr string,
 ) (*dto.ProjectResponseDto, *dto.ErrorResponseDto) {
-	projectId, err := uuid.FromBytes([]byte(projectIdStr))
+	log.Printf("Project id: %s", projectIdStr)
+	projectId, err := uuid.Parse(projectIdStr)
 	if err != nil {
 		log.Printf("Cannot convert str to id: %v\n", err)
 		return nil, &dto.ErrorResponseDto{StatusCode: http.StatusBadRequest, Message: "Project not found."}

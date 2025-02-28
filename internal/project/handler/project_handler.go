@@ -44,7 +44,7 @@ func (h *ProjectHandler) CreateProject(c echo.Context) error {
 }
 
 func (h *ProjectHandler) GetProjectById(c echo.Context) error {
-	projectId := c.Param("id")
+	projectId := c.Param("projectId")
 
 	res, errRes := h.svc.HandleGetProjectByIdRest(projectId)
 	if errRes != nil {
