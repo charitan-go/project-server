@@ -56,7 +56,9 @@ func (h *ProjectHandler) GetProjectById(c echo.Context) error {
 }
 
 func (h *ProjectHandler) GetProjects(c echo.Context) error {
-	pageStr, sizeStr := c.Param("page"), c.Param("size")
+	pageStr, sizeStr := c.QueryParam("page"), c.QueryParam("size")
+	log.Printf("pageStr = %s, pageSize = %s\n", pageStr, sizeStr)
+
 	page, err := strconv.Atoi(pageStr)
 	if err != nil {
 		if pageStr != "" {
